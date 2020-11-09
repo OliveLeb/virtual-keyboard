@@ -5,6 +5,7 @@
   text-decoration: none;
   box-sizing: border-box;
   font-family: 'Lato', sans-serif;
+  overflow: hidden;
 }
 
 body {
@@ -13,30 +14,30 @@ body {
 }
 
 main {
-  position: relative;
-  height: 100%;
   padding: 10px;
   min-height: calc(100vh - 30px);
+}
+aside {
+  text-align: right;
 }
 
 .screen {
   margin: 30px auto;
-  width: 60%;
-  height: 300px;
+  height: 50vh;
   border: 1px solid black;
   border-radius: 5px;
 }
 
 .keyboard {
-  position: absolute;
-  bottom: 20px;
   left: calc((100vw - 970px) / 2);
   width: 970px;
-  height: 200px;
   display: grid;
   grid-template-columns: repeat(17, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 45px);
   grid-auto-flow: row;
+}
+.toggleBtn {
+  display: none;
 }
 
 .action {
@@ -49,7 +50,7 @@ main {
   grid-column: span 7;
 }
 button {
-  border-radius: 2px;
+  border-radius: 5px;
   border: 1px solid black;
   margin: 1px;
   cursor: pointer;
@@ -67,9 +68,10 @@ button {
 
 @media all and (max-width: 970px) {
   .keyboard {
-    width: 100%;
-    left: 0;
+    width: 95%;
+    left: 2.5%;
     grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(5, 30px);
   }
   .desktop {
     display: none;
@@ -117,6 +119,49 @@ button {
   .maj {
     display: none;
   }
+}
+
+@media all and (max-width: 760px) {
+  .toggleBtn {
+    text-align: right;
+    display: block;
+  }
+  .keyboard {
+    position: absolute;
+    bottom: -100%;
+    transition: all 1s ease;
+  }
+  .active {
+    bottom: 40px;
+    transition: all 1s ease;
+  }
+  /* .keyboard {
+    animation: hideKeyboard 1s;
+    display: none;
+  }
+  @keyframes hideKeyboard {
+    from {
+      transform: translateY(0px);
+    }
+    to {
+      transform: translateY(-200px);
+    }
+  }
+  .active {
+    opacity: 0;
+    display: grid;
+    transition: opacity 1s;
+  
+    animation: showKeyboard 1s;
+  }
+  @keyframes showKeyboard {
+    from {
+      transform: translateY(200px);
+    }
+    to {
+      transform: translateY(0px);
+    }
+  }*/
 }
 
 /*  FOOTER  */

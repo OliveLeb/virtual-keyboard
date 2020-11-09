@@ -1,3 +1,16 @@
+* {
+  color: #fff;
+}
+
 button[type='button'] {
-  border-color: red;
+  border-color: #15232d;
+  background-color: #1e4662;
+}
+
+body {
+  background-color: #122738;
+}
+
+.screen {
+  background-color: #183549;
 }
