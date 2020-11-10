@@ -135,33 +135,6 @@ button {
     bottom: 40px;
     transition: all 1s ease;
   }
-  /* .keyboard {
-    animation: hideKeyboard 1s;
-    display: none;
-  }
-  @keyframes hideKeyboard {
-    from {
-      transform: translateY(0px);
-    }
-    to {
-      transform: translateY(-200px);
-    }
-  }
-  .active {
-    opacity: 0;
-    display: grid;
-    transition: opacity 1s;
-  
-    animation: showKeyboard 1s;
-  }
-  @keyframes showKeyboard {
-    from {
-      transform: translateY(200px);
-    }
-    to {
-      transform: translateY(0px);
-    }
-  }*/
 }
 
 /*  FOOTER  */
