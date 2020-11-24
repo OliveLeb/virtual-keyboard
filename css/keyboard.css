@@ -6,6 +6,7 @@
   box-sizing: border-box;
   font-family: 'Lato', sans-serif;
   overflow: hidden;
+  font-size: 14px;
 }
 
 body {
@@ -14,21 +15,50 @@ body {
 }
 
 main {
-  padding: 10px;
+  padding: 0 10px;
   min-height: calc(100vh - 30px);
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 60px);
 }
 aside {
   text-align: right;
 }
-
+/*
 .screen {
   margin: 30px auto;
   height: 50vh;
   border: 1px solid black;
   border-radius: 5px;
+}*/
+
+.screen {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  width: calc(100vw - 20px);
+}
+.screen textarea,
+.screen textarea:focus {
+  width: 100%;
+  height: 300px;
+  padding: 5px;
+  resize: none;
+  box-shadow: none;
+  outline: none;
+  border: none;
+}
+.index {
+  padding: 5px 0;
+  width: 20px;
 }
 
 .keyboard {
+  margin: 0 auto;
   left: calc((100vw - 970px) / 2);
   width: 970px;
   display: grid;
@@ -55,15 +85,42 @@ button {
   margin: 1px;
   cursor: pointer;
 }
+.capsLock {
+  position: relative;
+}
 
 .led {
-  position: relative;
-  top: 0;
-  right: 0;
-  width: 5px;
-  height: 5px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
   border: 1px solid black;
   border-radius: 50%;
+}
+
+.upperCase {
+  text-transform: uppercase;
+}
+
+.majDependent {
+  padding: 3px 0;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: space-between;
+}
+.majActive {
+  flex-direction: column;
+}
+.maj {
+  font-size: 10px;
+}
+.majActive span:nth-of-type(1) {
+  font-size: 10px;
+}
+.majActive span:nth-of-type(2) {
+  font-size: 14px;
 }
 
 @media all and (max-width: 970px) {
