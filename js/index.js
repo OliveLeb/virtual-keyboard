@@ -163,16 +163,16 @@ window.addEventListener('load', () => {
             },
             vertical(caret,direction) {
                   if(direction === 'up') {
-                        let str= textOutput.value.slice(0,caret);
+                        let str = textOutput.value.slice(0,caret);
                         const dataArray = str.split('\n');
                         if(!str.includes('\n')) return;
                         textOutput.setSelectionRange(caret - (dataArray[dataArray.length - 1].length + 1), caret - (dataArray[dataArray.length - 1].length + 1) );
                   }
                   else if(direction === 'down') {
-                        let str = textOutput.value.slice(caret+1);
+                        let str = textOutput.value.slice(caret);
                         const dataArray = str.split('\n');
-                        //console.log(dataArray);
-                        textOutput.setSelectionRange(caret + (dataArray[0].length + 1), caret + (dataArray[0].length + 1));
+                        if(dataArray.length === 1) return;
+                        textOutput.setSelectionRange(caret  + (dataArray[0].length + 1), caret + (dataArray[0].length + 1))
                   }          
             },
             page(button) {
