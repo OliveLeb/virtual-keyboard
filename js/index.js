@@ -11,11 +11,11 @@ window.addEventListener('load', () => {
       })
 
 
-      const toggleKeyboard = document.querySelector('.toggleBtn');
-      const keyboard = document.querySelector('.keyboard');
-      toggleKeyboard.addEventListener('click', () => {
-      keyboard.classList.toggle('active');
-      });
+      // const toggleKeyboard = document.querySelector('.toggleBtn');
+      // const keyboard = document.querySelector('.keyboard');
+      // toggleKeyboard.addEventListener('click', () => {
+      // keyboard.classList.toggle('active');
+      // });
 
       const capsLockLed = document.querySelector('#led');
       const buttons = document.querySelectorAll('button');
@@ -85,13 +85,7 @@ window.addEventListener('load', () => {
                         break;
                   case 'pageDown':
                         moveCursor.page(button.id)
-                        break;
-                  case 'showLine':
-                        showLine(chn1,chn2,caret);
-                        break;
-                  case 'menu':
-                        console.log('click')
-                        break;                      
+                        break;                     
                   default:
                         writeInTextArea(button,chn1,chn2);
                         break;
@@ -101,23 +95,6 @@ window.addEventListener('load', () => {
       })
       });
 
-
-      function showLine(chn1,chn2,caret){
-            // console.log(chn1)
-            // console.log(chn2)
-            // console.log(caret)
-            // console.log(JSON.stringify(textOutput.value))
-            // console.log(textOutput.value)
-            // console.log(JSON.stringify(String.fromCharCode(13,10)));
-            addTextAreaIndex()
-      }
-      
-
-      function eventRightClick(button) {
-            let rightClickEvent = document.createEvent('event');
-            rightClickEvent.initEvent('event',true,true);
-            button.addEventListener()
-      }
 
       function majActive() {
             if(isMaj){
@@ -194,6 +171,7 @@ window.addEventListener('load', () => {
                   else if(direction === 'down') {
                         let str = textOutput.value.slice(caret+1);
                         const dataArray = str.split('\n');
+                        //console.log(dataArray);
                         textOutput.setSelectionRange(caret + (dataArray[0].length + 1), caret + (dataArray[0].length + 1));
                   }          
             },

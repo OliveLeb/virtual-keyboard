@@ -80,10 +80,12 @@ aside {
 .toggleBtn {
   display: none;
 }
-
-.action:not(#del):not(#start) {
-  grid-column: span 2;
+@media all and (min-width: 971px) {
+  .action:not(#del):not(#start) {
+    grid-column: span 2;
+  }
 }
+
 .enter {
   grid-row: span 2;
 }
@@ -190,7 +192,7 @@ button:not(.action):not(.utils) {
     grid-column-start: 3 !important;
   }
 
-  .action:not(.enter):not(.backspace):not(#space):not(.rightMaj) {
+  .capsLock {
     grid-column-start: 1;
     grid-row: 4;
   }
@@ -231,7 +233,7 @@ button:not(.action):not(.utils) {
   }
 }
 
-@media all and (max-width: 760px) {
+/* @media all and (max-width: 760px) {
   .toggleBtn {
     text-align: right;
     display: block;
@@ -245,7 +247,7 @@ button:not(.action):not(.utils) {
     bottom: 40px;
     transition: all 1s ease;
   }
-}
+} */
 
 /*  FOOTER  */
 footer {
