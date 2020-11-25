@@ -24,22 +24,27 @@ window.addEventListener('load', () => {
 
 
 
-      
+      let textData;
       function init() {
-            let textData = JSON.stringify(textOutput.value);
-            let data = textData.replaceAll('\\n',String.fromCharCode(10));
+            textData = textOutput.value;
             let caret = isNaN(caretPosition)  ? textOutput.selectionStart : caretPosition ;
-            let chn1= data.slice(1,caret+1);
-            let chn2 = data.slice(caret+1,-1);
+            let chn1= textData.slice(0,caret);
+            let chn2 = textData.slice(caret,textData.length);
             return {chn1,chn2,caret};
       };
 
-      function showStuff() {
-            console.log(isNaN(caretPosition))
-            console.log(caretPosition);
-            console.log(textOutput.value)
-      }
-            
+      // function showStuff(chn1,chn2) {
+      //       // console.log(isNaN(caretPosition))
+      //       // console.log(caretPosition);
+      //       // console.log(textOutput.value)
+      //       //console.log(String.fromCharCode(34))
+      //       // console.log(textOutput.value);
+      //       // console.log(textData);
+      //       console.log(caretPosition)
+      //       console.log(chn1)
+      //       console.log(chn2)
+      //       //console.log(Data)
+      // }            
       
 
       buttons.forEach(button => {
@@ -47,7 +52,7 @@ window.addEventListener('load', () => {
                   const {chn1,chn2,caret} = init();
                   switch (button.id) {
                         case 'BACKSPACE':
-                              textOutput.value = chn1.substring(0,caret - 1 ) + chn2;
+                              textOutput.value = chn1.substring(0,caret-1) + chn2;
                               setCaret(-1);
                               break;
                         case 'del':
@@ -102,9 +107,9 @@ window.addEventListener('load', () => {
                         case 'pageDown':
                               moveCursor.page(button.id);
                               break; 
-                        case 'show':
-                              showStuff();
-                              break;                    
+                        // case 'show':
+                        //       showStuff(chn1,chn2);
+                        //       break;                   
                         default:
                               const input = writeInTextArea(button,chn1,chn2);
                               setCaret(input.length);
@@ -150,7 +155,6 @@ window.addEventListener('load', () => {
             capsLockLed.classList.remove('led-active');
             remove.capsLock();
             isAltgr = true;
-            console.log(isAltgr)
             button.classList.add('altGr-active');
             buttons.forEach(button => {
                   if(button.classList.contains('number')) button.classList.add('altgrActive');
@@ -165,11 +169,11 @@ window.addEventListener('load', () => {
                   if(isMaj) {
                         input = button.children[1].innerText;
                   }
-                  else if(!isMaj && !isAltgr) {
-                        input = button.children[0].innerText;
-                  }
                   else if(isAltgr){
                         input = button.children[2].innerText;
+                  }
+                  else {
+                        input = button.children[0].innerText;
                   }
             }
             else {
@@ -204,9 +208,12 @@ window.addEventListener('load', () => {
                   }
                   else if(direction === 'down') {
                         let str = textOutput.value.slice(caret);
+                        console.log(str)
                         const dataArray = str.split('\n');
+                        console.log(dataArray)
                         if(dataArray.length === 1) return;
-                        textOutput.setSelectionRange(caret  + (dataArray[0].length + 1), caret + (dataArray[0].length + 1))
+                        if(dataArray.length >= 2) textOutput.setSelectionRange(caret  + (dataArray[1].length + 1), caret + (dataArray[1].length + 1));
+                        else textOutput.setSelectionRange(caret  + (dataArray[0].length + 1), caret + (dataArray[0].length + 1));
                         caretPosition = caret  + (dataArray[0].length + 1);
                   }          
             },
