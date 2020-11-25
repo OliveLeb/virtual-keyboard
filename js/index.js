@@ -74,6 +74,18 @@ window.addEventListener('load', () => {
                   case 'altgr':
                         altgrActive(button);
                         break;
+                  case 'start':
+                        moveCursor.line(caret,button.id,chn1)
+                        break;
+                  case 'end':
+                        moveCursor.line(caret,button.id,chn2)
+                        break;
+                  case 'pageUp':
+                        moveCursor.page(button.id)
+                        break;
+                  case 'pageDown':
+                        moveCursor.page(button.id)
+                        break;
                   case 'showLine':
                         showLine(chn1,chn2,caret);
                         break;
@@ -172,7 +184,7 @@ window.addEventListener('load', () => {
                   if(direction === -1 && caretPos === 0 ) return;
                   textOutput.setSelectionRange(caretPos + direction, caretPos + direction);
             },
-            vertical(caret,direction){
+            vertical(caret,direction) {
                   if(direction === 'up') {
                         let str= textOutput.value.slice(0,caret);
                         const dataArray = str.split('\n');
@@ -184,6 +196,24 @@ window.addEventListener('load', () => {
                         const dataArray = str.split('\n');
                         textOutput.setSelectionRange(caret + (dataArray[0].length + 1), caret + (dataArray[0].length + 1));
                   }          
+            },
+            page(button) {
+                  if(button === 'pageUp') {
+                        textOutput.setSelectionRange(0,0)
+                  }
+                  else if(button === 'pageDown') {
+                        textOutput.setSelectionRange(textOutput.value.length,textOutput.value.length)
+                  }
+            },
+            line(caret,button,str) {
+                  if(button === 'start') {
+                        const data = str.split('\n');
+                        textOutput.setSelectionRange(caret - data[data.length - 1].length,caret - data[data.length - 1].length)
+                  }
+                  else if(button === 'end') {
+                        const data = str.split('\n');
+                        textOutput.setSelectionRange(caret + data[0].length,caret + data[0].length);
+                  }
             }
       }
 
