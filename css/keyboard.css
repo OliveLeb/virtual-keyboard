@@ -26,6 +26,12 @@ header div {
 header div:nth-of-type(1) {
   text-align: left;
 }
+.github {
+  text-align: right;
+}
+.github i {
+  font-size: 2rem;
+}
 header a {
   font-size: 18px;
   text-decoration: underline;
