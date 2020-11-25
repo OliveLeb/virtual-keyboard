@@ -42,7 +42,7 @@ window.addEventListener('load', () => {
                         textOutput.value = chn1 + chn2.substring(1,chn2.length);
                         break;
                   case 'space':
-                        textOutput.value += ' ';
+                        textOutput.value = chn1 + ' ' + chn2;
                         break;
                   case 'enter':
                         textOutput.value = chn1 + '\n' + chn2;
@@ -54,27 +54,24 @@ window.addEventListener('load', () => {
                         capsLockLed.classList.toggle('led-active');
                         break;
                   case 'TAB':
-                        textOutput.value += '    ';
+                        textOutput.value = chn1 + '   ' + chn2;
                         break;
                   case 'up':
-                        //console.log(JSON.stringify(textOutput.value));
-                        cursorVertical(caret,'up');
+                        moveCursor.vertical(caret,'up')
                         break;
                   case 'down':
-                        //console.log(JSON.stringify(textOutput.value));
-                        cursorVertical(caret,'down');
+                        moveCursor.vertical(caret,'down')
                         break;
                   case 'left':
-                        moveCursorArrow(-1)
+                        moveCursor.lateral(-1)
                         break;
                   case 'right':
-                        moveCursorArrow(1)
+                        moveCursor.lateral(1);
                         break; 
                   case 'uppercase':
                         majActive();
                         break;
                   case 'altgr':
-                        //remove.capsLock();
                         altgrActive(button);
                         break;
                   case 'showLine':
@@ -168,23 +165,26 @@ window.addEventListener('load', () => {
       
 
       
-      function moveCursorArrow(direction) {
-            let caretPos = textOutput.selectionStart;
-            if(direction === -1 && caretPos === 0 ) return;
-            textOutput.setSelectionRange(caretPos + direction, caretPos + direction);
-      };
-      function cursorVertical(caret,direction){
-            if(direction === 'up') {
-                  let str= textOutput.value.slice(0,caret);
-                  const dataArray = str.split('\n');
-                  if(!str.includes('\n')) return;
-                  textOutput.setSelectionRange(caret - (dataArray[dataArray.length - 1].length + 1), caret - (dataArray[dataArray.length - 1].length + 1) );
+      
+      const moveCursor = {
+            lateral(direction) {
+                  let caretPos = textOutput.selectionStart;
+                  if(direction === -1 && caretPos === 0 ) return;
+                  textOutput.setSelectionRange(caretPos + direction, caretPos + direction);
+            },
+            vertical(caret,direction){
+                  if(direction === 'up') {
+                        let str= textOutput.value.slice(0,caret);
+                        const dataArray = str.split('\n');
+                        if(!str.includes('\n')) return;
+                        textOutput.setSelectionRange(caret - (dataArray[dataArray.length - 1].length + 1), caret - (dataArray[dataArray.length - 1].length + 1) );
+                  }
+                  else if(direction === 'down') {
+                        let str = textOutput.value.slice(caret+1);
+                        const dataArray = str.split('\n');
+                        textOutput.setSelectionRange(caret + (dataArray[0].length + 1), caret + (dataArray[0].length + 1));
+                  }          
             }
-            else if(direction === 'down') {
-                  let str = textOutput.value.slice(caret+1);
-                  const dataArray = str.split('\n');
-                  textOutput.setSelectionRange(caret + (dataArray[0].length + 1), caret + (dataArray[0].length + 1));
-            }          
       }
 
 
