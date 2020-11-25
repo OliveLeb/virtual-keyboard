@@ -3,6 +3,7 @@ window.addEventListener('load', () => {
       let isMaj = false;
       let isCapslocked = false;
       let isAltgr = false;
+      let caretPosition;
 
       const switchMode = document.querySelector('#switch');
       const cssFile = document.querySelector('link[href=\'css/keyboard-light.css\']');
@@ -22,78 +23,107 @@ window.addEventListener('load', () => {
       const textOutput = document.querySelector('textarea');
 
 
-       function caretPos() {
+
+      
+      function init() {
             let textData = JSON.stringify(textOutput.value);
             let data = textData.replaceAll('\\n',String.fromCharCode(10));
-            let caret = textOutput.selectionStart;
+            let caret = isNaN(caretPosition)  ? textOutput.selectionStart : caretPosition ;
             let chn1= data.slice(1,caret+1);
             let chn2 = data.slice(caret+1,-1);
             return {chn1,chn2,caret};
+      };
+
+      function showStuff() {
+            console.log(isNaN(caretPosition))
+            console.log(caretPosition);
+            console.log(textOutput.value)
       }
+            
+      
 
       buttons.forEach(button => {
-      button.addEventListener('click', ()=> {
-          const {chn1,chn2,caret} = caretPos();
-            switch (button.id) {
-                  case 'BACKSPACE':
-                        textOutput.value = chn1.substring(0,caret - 1 ) + chn2;
-                        break;
-                  case 'del':
-                        textOutput.value = chn1 + chn2.substring(1,chn2.length);
-                        break;
-                  case 'space':
-                        textOutput.value = chn1 + ' ' + chn2;
-                        break;
-                  case 'enter':
-                        textOutput.value = chn1 + '\n' + chn2;
-                        break;
-                  case 'capsLock':
-                        isCapslocked = !isCapslocked;
-                        isMaj = !isMaj
-                        capsLocked();
-                        capsLockLed.classList.toggle('led-active');
-                        break;
-                  case 'TAB':
-                        textOutput.value = chn1 + '   ' + chn2;
-                        break;
-                  case 'up':
-                        moveCursor.vertical(caret,'up')
-                        break;
-                  case 'down':
-                        moveCursor.vertical(caret,'down')
-                        break;
-                  case 'left':
-                        moveCursor.lateral(-1)
-                        break;
-                  case 'right':
-                        moveCursor.lateral(1);
-                        break; 
-                  case 'uppercase':
-                        majActive();
-                        break;
-                  case 'altgr':
-                        altgrActive(button);
-                        break;
-                  case 'start':
-                        moveCursor.line(caret,button.id,chn1)
-                        break;
-                  case 'end':
-                        moveCursor.line(caret,button.id,chn2)
-                        break;
-                  case 'pageUp':
-                        moveCursor.page(button.id)
-                        break;
-                  case 'pageDown':
-                        moveCursor.page(button.id)
-                        break;                     
-                  default:
-                        writeInTextArea(button,chn1,chn2);
-                        break;
-            }
-            textOutput.focus();
-            //addTextAreaIndex();
-      })
+            button.addEventListener('click', ()=> {
+                  const {chn1,chn2,caret} = init();
+                  switch (button.id) {
+                        case 'BACKSPACE':
+                              textOutput.value = chn1.substring(0,caret - 1 ) + chn2;
+                              setCaret(-1);
+                              break;
+                        case 'del':
+                              textOutput.value = chn1 + chn2.substring(1,chn2.length);
+                              setCaret(0);
+                              break;
+                        case 'space':
+                              textOutput.value = chn1 + ' ' + chn2;
+                              setCaret(1);
+                              break;
+                        case 'enter':
+                              textOutput.value = chn1 + '\n' + chn2;
+                              setCaret(1);
+                              break;
+                        case 'capsLock':
+                              isCapslocked = !isCapslocked;
+                              isMaj = !isMaj
+                              capsLocked();
+                              capsLockLed.classList.toggle('led-active');
+                              break;
+                        case 'TAB':
+                              textOutput.value = chn1 + '   ' + chn2;
+                              setCaret(3);
+                              break;
+                        case 'up':
+                              moveCursor.vertical(caret,'up');
+                              break;
+                        case 'down':
+                              moveCursor.vertical(caret,'down');
+                              break;
+                        case 'left':
+                              moveCursor.lateral(-1);
+                              break;
+                        case 'right':
+                              moveCursor.lateral(1);
+                              break; 
+                        case 'uppercase':
+                              majActive();
+                              break;
+                        case 'altgr':
+                              altgrActive(button);
+                              break;
+                        case 'start':
+                              moveCursor.line(caret,button.id,chn1);
+                              break;
+                        case 'end':
+                              moveCursor.line(caret,button.id,chn2);
+                              break;
+                        case 'pageUp':
+                              moveCursor.page(button.id);
+                              break;
+                        case 'pageDown':
+                              moveCursor.page(button.id);
+                              break; 
+                        case 'show':
+                              showStuff();
+                              break;                    
+                        default:
+                              const input = writeInTextArea(button,chn1,chn2);
+                              setCaret(input.length);
+                              break;
+                  }
+                  textOutput.focus();
+                  //addTextAreaIndex();
+            });
       });
+
+      textOutput.addEventListener('click',()=>{
+            caretPosition = textOutput.selectionStart;
+      })
+
+      function setCaret(length){
+            caretPosition = caretPosition + length;
+            let caret = isNaN(caretPosition)  ? textOutput.selectionStart : caretPosition ;
+            textOutput.setSelectionRange(caret,caret);
+      };
 
 
       function majActive() {
@@ -120,6 +150,7 @@ window.addEventListener('load', () => {
             capsLockLed.classList.remove('led-active');
             remove.capsLock();
             isAltgr = true;
+            console.log(isAltgr)
             button.classList.add('altGr-active');
             buttons.forEach(button => {
                   if(button.classList.contains('number')) button.classList.add('altgrActive');
@@ -134,11 +165,11 @@ window.addEventListener('load', () => {
                   if(isMaj) {
                         input = button.children[1].innerText;
                   }
-                  else if(!isMaj) {
+                  else if(!isMaj && !isAltgr) {
                         input = button.children[0].innerText;
                   }
                   else if(isAltgr){
-                        input = button.children[3].innerText;
+                        input = button.children[2].innerText;
                   }
             }
             else {
@@ -149,6 +180,7 @@ window.addEventListener('load', () => {
             remove.altGr();
             isMaj = false;
             isAltgr = false;
+            return input;
       }
            
       
@@ -160,6 +192,7 @@ window.addEventListener('load', () => {
                   let caretPos = textOutput.selectionStart;
                   if(direction === -1 && caretPos === 0 ) return;
                   textOutput.setSelectionRange(caretPos + direction, caretPos + direction);
+                  caretPosition = caretPos + direction;
             },
             vertical(caret,direction) {
                   if(direction === 'up') {
@@ -167,30 +200,36 @@ window.addEventListener('load', () => {
                         const dataArray = str.split('\n');
                         if(!str.includes('\n')) return;
                         textOutput.setSelectionRange(caret - (dataArray[dataArray.length - 1].length + 1), caret - (dataArray[dataArray.length - 1].length + 1) );
+                        caretPosition = caret - (dataArray[dataArray.length - 1].length + 1);
                   }
                   else if(direction === 'down') {
                         let str = textOutput.value.slice(caret);
                         const dataArray = str.split('\n');
                         if(dataArray.length === 1) return;
                         textOutput.setSelectionRange(caret  + (dataArray[0].length + 1), caret + (dataArray[0].length + 1))
+                        caretPosition = caret  + (dataArray[0].length + 1);
                   }          
             },
             page(button) {
                   if(button === 'pageUp') {
-                        textOutput.setSelectionRange(0,0)
+                        textOutput.setSelectionRange(0,0);
+                        caretPosition = 0;                       
                   }
                   else if(button === 'pageDown') {
-                        textOutput.setSelectionRange(textOutput.value.length,textOutput.value.length)
+                        textOutput.setSelectionRange(textOutput.value.length,textOutput.value.length);
+                        caretPosition = textOutput.value.length;
                   }
             },
             line(caret,button,str) {
                   if(button === 'start') {
                         const data = str.split('\n');
-                        textOutput.setSelectionRange(caret - data[data.length - 1].length,caret - data[data.length - 1].length)
+                        textOutput.setSelectionRange(caret - data[data.length - 1].length,caret - data[data.length - 1].length);
+                        caretPosition = caret - data[data.length - 1].length;
                   }
                   else if(button === 'end') {
                         const data = str.split('\n');
                         textOutput.setSelectionRange(caret + data[0].length,caret + data[0].length);
+                        caretPosition = caret + data[0].length;
                   }
             }
       }
