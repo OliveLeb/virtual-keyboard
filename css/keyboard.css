@@ -6,23 +6,40 @@
   box-sizing: border-box;
   font-family: 'Lato', sans-serif;
   overflow: hidden;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 body {
   width: 100%;
   height: 100%;
 }
-
-main {
-  padding: 0 10px;
-  min-height: calc(100vh - 30px);
+header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
 }
+header div {
+  width: 33%;
+  text-align: center;
+}
+header div:nth-of-type(1) {
+  text-align: left;
+}
+header a {
+  font-size: 18px;
+  text-decoration: underline;
+}
+h1 {
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 50px - 39px);
 }
 aside {
   text-align: right;
@@ -40,21 +57,22 @@ aside {
   flex-direction: row;
   justify-content: center;
   text-align: center;
-  width: calc(100vw - 20px);
 }
 .screen textarea,
 .screen textarea:focus {
   width: 100%;
-  height: 300px;
+  height: 60vh;
   padding: 5px;
   resize: none;
   box-shadow: none;
   outline: none;
   border: none;
+  overflow: auto;
 }
 .index {
   padding: 5px 0;
   width: 20px;
+  overflow: auto;
 }
 
 .keyboard {
@@ -84,7 +102,12 @@ button {
   border: 1px solid black;
   margin: 1px;
   cursor: pointer;
+  outline: none;
 }
+button:not(.action):not(.utils) {
+  font-weight: bold;
+}
+
 .capsLock {
   position: relative;
 }
@@ -102,6 +125,12 @@ button {
 .upperCase {
   text-transform: uppercase;
 }
+.space {
+  grid-column: 5 / span 7;
+}
+#left {
+  grid-column-start: -4;
+}
 
 .majDependent {
   padding: 3px 0;
@@ -110,17 +139,42 @@ button {
   align-items: center;
   justify-content: space-between;
 }
-.majActive {
+/*.majActive {
   flex-direction: column;
-}
+}*/
 .maj {
-  font-size: 10px;
+  font-size: 12px;
 }
 .majActive span:nth-of-type(1) {
-  font-size: 10px;
+  font-size: 12px;
 }
 .majActive span:nth-of-type(2) {
-  font-size: 14px;
+  font-size: 16px;
+}
+.number {
+  position: relative;
+}
+.number span:nth-of-type(2) {
+  position: absolute;
+  top: 5px;
+  left: 18px;
+}
+.number span:nth-of-type(1) {
+  position: absolute;
+  left: 18px;
+  bottom: 5px;
+}
+.number span:nth-of-type(3) {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 12px;
+}
+.altgrActive span:nth-of-type(3) {
+  font-size: 16px;
+}
+.altgrActive span:nth-of-type(1) {
+  font-size: 12px;
 }
 
 @media all and (max-width: 970px) {
@@ -173,8 +227,17 @@ button {
     grid-row: 5;
     grid-column: -4;
   }
-  .maj {
+
+  .maj:not(.number > .maj) {
     display: none;
+  }
+  .number span:nth-of-type(1),
+  .number span:nth-of-type(3) {
+    display: none;
+  }
+  .number > .maj {
+    position: static !important;
+    margin: auto;
   }
 }
 
@@ -197,5 +260,5 @@ button {
 /*  FOOTER  */
 footer {
   text-align: center;
-  height: 30px;
+  padding: 10px;
 }

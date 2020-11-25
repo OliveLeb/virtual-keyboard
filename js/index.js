@@ -2,6 +2,7 @@ window.addEventListener('load', () => {
 
       let isMaj = false;
       let isCapslocked = false;
+      let isAltgr = false;
 
       const switchMode = document.querySelector('#switch');
       const cssFile = document.querySelector('link[href=\'css/keyboard-light.css\']');
@@ -23,7 +24,7 @@ window.addEventListener('load', () => {
 
        function caretPos() {
             let textData = JSON.stringify(textOutput.value);
-            let data = textData.replaceAll('\\n',String.fromCharCode(13));
+            let data = textData.replaceAll('\\n',String.fromCharCode(10));
             let caret = textOutput.selectionStart;
             let chn1= data.slice(1,caret+1);
             let chn2 = data.slice(caret+1,-1);
@@ -45,10 +46,10 @@ window.addEventListener('load', () => {
                         break;
                   case 'enter':
                         textOutput.value = chn1 + '\n' + chn2;
-                        addTextAreaIndex();
                         break;
                   case 'capsLock':
                         isCapslocked = !isCapslocked;
+                        isMaj = !isMaj
                         capsLocked();
                         capsLockLed.classList.toggle('led-active');
                         break;
@@ -56,10 +57,12 @@ window.addEventListener('load', () => {
                         textOutput.value += '    ';
                         break;
                   case 'up':
-                        console.log(JSON.stringify(textOutput.value));
+                        //console.log(JSON.stringify(textOutput.value));
+                        cursorVertical(caret,'up');
                         break;
                   case 'down':
-                        console.log(JSON.stringify(textOutput.value));
+                        //console.log(JSON.stringify(textOutput.value));
+                        cursorVertical(caret,'down');
                         break;
                   case 'left':
                         moveCursorArrow(-1)
@@ -69,6 +72,10 @@ window.addEventListener('load', () => {
                         break; 
                   case 'uppercase':
                         majActive();
+                        break;
+                  case 'altgr':
+                        //remove.capsLock();
+                        altgrActive(button);
                         break;
                   case 'showLine':
                         showLine(chn1,chn2,caret);
@@ -81,6 +88,7 @@ window.addEventListener('load', () => {
                         break;
             }
             textOutput.focus();
+            //addTextAreaIndex();
       })
       });
 
@@ -105,7 +113,7 @@ window.addEventListener('load', () => {
       function majActive() {
             if(isMaj){
                   isMaj = false
-                  removeCapsLock();
+                  remove.capsLock();
             }
             else {
                   isMaj = true;
@@ -117,21 +125,44 @@ window.addEventListener('load', () => {
             }     
       }
 
+      function altgrActive(button) {
+            if(isAltgr) {
+                  isAltgr = false;
+                  remove.altGr();
+                  return;
+            }
+            capsLockLed.classList.remove('led-active');
+            remove.capsLock();
+            isAltgr = true;
+            button.classList.add('altGr-active');
+            buttons.forEach(button => {
+                  if(button.classList.contains('number')) button.classList.add('altgrActive');
+            })
+      }
+
 
       function writeInTextArea(button,chn1,chn2) {
             let input;
-            if(isMaj && button.children.length === 2) {
-                  input = button.children[1].innerText;
-            }
-            else if(!isMaj && button.children.length === 2) {
-                  input = button.children[0].innerText;
+
+            if(button.children.length >= 2){   
+                  if(isMaj) {
+                        input = button.children[1].innerText;
+                  }
+                  else if(!isMaj) {
+                        input = button.children[0].innerText;
+                  }
+                  else if(isAltgr){
+                        input = button.children[3].innerText;
+                  }
             }
             else {
                   input = button.innerText;
             }
             textOutput.value = chn1 + input + chn2;
-            if(!isCapslocked) removeCapsLock();
+            if(!isCapslocked) remove.capsLock();
+            remove.altGr();
             isMaj = false;
+            isAltgr = false;
       }
            
       
@@ -141,40 +172,68 @@ window.addEventListener('load', () => {
             let caretPos = textOutput.selectionStart;
             if(direction === -1 && caretPos === 0 ) return;
             textOutput.setSelectionRange(caretPos + direction, caretPos + direction);
-            console.log(caretPos)
+      };
+      function cursorVertical(caret,direction){
+            if(direction === 'up') {
+                  let str= textOutput.value.slice(0,caret);
+                  const dataArray = str.split('\n');
+                  if(!str.includes('\n')) return;
+                  textOutput.setSelectionRange(caret - (dataArray[dataArray.length - 1].length + 1), caret - (dataArray[dataArray.length - 1].length + 1) );
+            }
+            else if(direction === 'down') {
+                  let str = textOutput.value.slice(caret+1);
+                  const dataArray = str.split('\n');
+                  textOutput.setSelectionRange(caret + (dataArray[0].length + 1), caret + (dataArray[0].length + 1));
+            }          
       }
 
 
       function capsLocked() {
+            remove.altGr();
             buttons.forEach(button => {
                   if(button.classList.contains('letter')) button.classList.toggle('upperCase');
                   if(button.classList.contains('majDependent')) button.classList.toggle('majActive');
             })
       }
-      function removeCapsLock() {
-            buttons.forEach(button => {
-                  button.classList.remove('upperCase');
-                  button.classList.remove('majActive');
-                  button.classList.remove('uppercase-active');
-            })
+      const remove = {
+            capsLock() {
+                  buttons.forEach(button => {
+                        button.classList.remove('upperCase');
+                        button.classList.remove('majActive');
+                        button.classList.remove('uppercase-active');
+                  })
+            },
+            altGr() {
+                  buttons.forEach(button => {
+                        button.classList.remove('altGr-active');
+                        button.classList.remove('altgrActive');
+                  })
+            }
       }
+      
 
       // AJOUTE UNE LIGNE INDEX A CHAQUE SAUT DE LIGNE
       const indexDiv = document.querySelector('#index');
       function addTextAreaIndex() {
             const data = textOutput.value.split('\n');
             // console.log(data);
-            // for(let i=1;i<data.length+1;i++){
-            //       const indiceNb = document.createElement('p');
-            //       indiceNb.innerText = i;
-            //       indexDiv.appendChild(indiceNb);
-            // }
-            const indiceNb = document.createElement('p');
-            indiceNb.innerText = data.length;
-            indexDiv.appendChild(indiceNb);
+            for(let i=1;i<data.length+1;i++){
+                  if(indexDiv.children.length < data.length) {
+                        const indiceNb = document.createElement('p');
+                        indiceNb.innerText = i;
+                        indexDiv.appendChild(indiceNb);
+                  }
+
+            }
+            // const indiceNb = document.createElement('p');
+            // indiceNb.innerText = data.length;
+            // indexDiv.appendChild(indiceNb);
       }
-      addTextAreaIndex();
-      
+      //addTextAreaIndex();
+
+      textOutput.addEventListener('scroll',()=> {
+            indexDiv.scrollTop = textOutput.scrollTop;
+      })
 
  
 });

@@ -1,5 +1,16 @@
+a {
+  color: black;
+}
+
 button[type='button'] {
-  border-color: green;
+  border: none;
+}
+button:hover {
+  background-color: #dddddd;
+}
+
+body {
+  background-color: #f9d2d2;
 }
 
 .led-active {
@@ -9,8 +20,16 @@ button[type='button'] {
 }
 
 textarea {
-  background-color: #c3c3c3;
-  color: #494949;
+  background-color: #eaeaea;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #595959;
+}
+.index {
+  color: #7b7b7b;
+  background: #dfdfdf;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
 }
 
 .maj {
@@ -23,15 +42,21 @@ textarea {
 .majActive span:nth-of-type(2) {
   color: #000 !important;
 }
+.number span:nth-of-type(3) {
+  color: #7b7b7b;
+}
+.altgrActive span:nth-of-type(3) {
+  color: #000;
+}
+.altgrActive span:nth-of-type(1) {
+  color: #7b7b7b;
+}
 
-.uppercase-active {
+.uppercase-active,
+.altGr-active {
   background-color: green !important;
+  color: #fff;
 }
 .uppercase-active i {
   color: #fff !important;
-}
-
-.index {
-  color: #7b7b7b;
-  background: #efefef;
 }
