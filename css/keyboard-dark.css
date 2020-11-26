@@ -16,6 +16,7 @@ body {
 
 textarea {
   background-color: #183549;
+  color: #bbbbbb;
 }
 .index {
   background-color: #1e4662;
@@ -57,4 +58,15 @@ textarea {
 }
 .uppercase-active i {
   color: #1e4662 !important;
+}
+
+@media all and (max-width: 970px) {
+  .number span:nth-of-type(2) {
+    color: #fff;
+    font-size: 16px;
+    font-weight: normal;
+  }
+  .dot span:nth-of-type(2) {
+    color: #fff;
+  }
 }

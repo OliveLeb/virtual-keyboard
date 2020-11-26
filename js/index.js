@@ -12,7 +12,7 @@ window.addEventListener('load', () => {
       const letter = ['a','z','e','r','t','y','u','i','o','p','q','s','d','f','g','h','j','k','l','m','w','x','c','v','b','n'];
 
       
-
+      const windowSizeBreak =  window.matchMedia('(max-width: 970px)');
 
       const switchMode = document.querySelector('#switch');
       const cssFile = document.querySelector('link[href=\'css/keyboard-light.css\']');
@@ -241,7 +241,10 @@ window.addEventListener('load', () => {
                         input = button.children[2].innerText;
                   }
                   else {
-                        input = button.children[0].innerText;
+                        if(button.classList.contains('dot') && windowSizeBreak.matches){
+                              input = button.children[1].innerText;
+                        }
+                        else input = button.children[0].innerText;
                   }
             }
             else {

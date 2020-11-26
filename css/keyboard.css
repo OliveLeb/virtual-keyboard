@@ -121,8 +121,15 @@ button:not(.action):not(.utils) {
   right: 5px;
   width: 10px;
   height: 10px;
-  border: 1px solid black;
   border-radius: 50%;
+}
+@media all and (max-width: 580px) {
+  .led {
+    top: 2px;
+    right: 2px;
+    width: 7px;
+    height: 7px;
+  }
 }
 
 .upperCase {
@@ -230,6 +237,13 @@ button:not(.action):not(.utils) {
   .dot {
     grid-row: 5;
     grid-column: -4;
+  }
+  .dot span:nth-of-type(1),
+  .coma span:nth-of-type(2) {
+    display: none;
+  }
+  .dot span:nth-of-type(2) {
+    font-size: 16px;
   }
 
   .maj:not(.number > .maj) {
