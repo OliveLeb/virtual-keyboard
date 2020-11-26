@@ -113,6 +113,7 @@ window.addEventListener('load', () => {
                   const {chn1,chn2,caret} = init();
                   switch (button.id) {
                         case 'BACKSPACE':
+                              if(caret === 0) break;
                               textOutput.value = chn1.substring(0,caret-1) + chn2;
                               setCaret(-1);
                               break;
