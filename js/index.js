@@ -4,6 +4,15 @@ window.addEventListener('load', () => {
       let isCapslocked = false;
       let isAltgr = false;
       let caretPosition;
+      let pageNbr = false;
+
+      const specialChar = ['+','×','÷','=','/','_','é','è','à','ù','!','@','#','%','^','²','&','*','(',')','-','\'','"',':',';','?',
+                           '<','>','€','$','£','¥','{','}','[',']','~','|','`','\\','ç','—','°','¨','µ','.','§','ƒ','¤','©','¿','¡'];
+
+      const letter = ['a','z','e','r','t','y','u','i','o','p','q','s','d','f','g','h','j','k','l','m','w','x','c','v','b','n'];
+
+      
+
 
       const switchMode = document.querySelector('#switch');
       const cssFile = document.querySelector('link[href=\'css/keyboard-light.css\']');
@@ -21,8 +30,56 @@ window.addEventListener('load', () => {
       const capsLockLed = document.querySelector('#led');
       const buttons = document.querySelectorAll('button');
       const textOutput = document.querySelector('textarea');
+      const majPagebtn = document.querySelector('.leftMaj');
 
+      function defineKey(button) {
+                  const letterBtns = Array.from(buttons).filter(button => button.className === 'letter');
+                  if(button) {
+                        if(button.classList.contains('letters')){
+                              button.classList.remove('letters');
+                              button.classList.add('specials');
+                              button.innerText = 'ABC';
+                              majPagebtn.id = 'specialPage';
+                              majPagebtn.innerText = '1/2';
+                        }
+                        else if(button.id === 'specialPage'){
+                              !pageNbr ? majPagebtn.innerText = '1/2' : majPagebtn.innerText = '2/2';
+                        }
+                        else {
+                              button.classList.remove('specials');
+                              button.classList.add('letters');
+                              button.innerText = '!@€';
+                              majPagebtn.id = 'uppercase';
+                              majPagebtn.innerText = '';
+                              const majLogo = document.createElement('i');
+                              majLogo.classList.add('far','fa-arrow-alt-circle-up');
+                              majPagebtn.appendChild(majLogo);
+                        };
+                  };
 
+                  if(!button || button.classList.contains('letters')){
+                        for(let i = 0;i<letterBtns.length;i++){
+                              letterBtns[i].innerText = letter[i];
+                        };
+                  }
+                  else {
+                        changePageSpecialChar(letterBtns);
+                  };                            
+      };
+      defineKey();
+
+      function changePageSpecialChar(buttons) {
+            if(pageNbr){ 
+                  for(let i = 0;i<buttons.length;i++) {
+                        buttons[i].innerText = specialChar[26+i];
+                  };
+            }
+            else {
+                  for(let i = 0;i<buttons.length;i++) {
+                        buttons[i].innerText = specialChar[i];
+                  };
+            };                      
+      };
 
       let textData;
       function init() {
@@ -33,7 +90,7 @@ window.addEventListener('load', () => {
             return {chn1,chn2,caret};
       };
 
-      // function showStuff(chn1,chn2) {
+       function showStuff(button) {
       //       // console.log(isNaN(caretPosition))
       //       // console.log(caretPosition);
       //       // console.log(textOutput.value)
@@ -44,7 +101,11 @@ window.addEventListener('load', () => {
       //       console.log(chn1)
       //       console.log(chn2)
       //       //console.log(Data)
-      // }            
+      //button.innerText = 'yo';
+      //console.log(button.textContent)
+      console.log(specialChar.length)
+      console.log(letter.length);
+       }            
       
 
       buttons.forEach(button => {
@@ -106,10 +167,17 @@ window.addEventListener('load', () => {
                               break;
                         case 'pageDown':
                               moveCursor.page(button.id);
+                              break;
+                        case 'specialChar':
+                              defineKey(button);
+                              break;
+                        case 'specialPage':
+                              pageNbr = !pageNbr;
+                              defineKey(button);
                               break; 
-                        // case 'show':
-                        //       showStuff(chn1,chn2);
-                        //       break;                   
+                        case 'show':
+                              showStuff(button);
+                              break;                   
                         default:
                               const input = writeInTextArea(button,chn1,chn2);
                               setCaret(input.length);

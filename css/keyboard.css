@@ -83,6 +83,9 @@ aside {
   grid-template-rows: repeat(5, 45px);
   grid-auto-flow: row;
 }
+.mobile {
+  display: none;
+}
 .toggleBtn {
   display: none;
 }
@@ -91,7 +94,6 @@ aside {
     grid-column: span 2;
   }
 }
-
 .enter {
   grid-row: span 2;
 }
@@ -182,6 +184,10 @@ button:not(.action):not(.utils) {
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(5, 30px);
   }
+  .mobile {
+    display: inline-block;
+    grid-row-start: 5;
+  }
   .desktop {
     display: none;
   }
@@ -194,7 +200,7 @@ button:not(.action):not(.utils) {
   .number:nth-child(2) {
     grid-column-start: 1;
   }
-  .rightMaj + button + button {
+  .leftMaj + button + button {
     grid-column-start: 3 !important;
   }
 
@@ -202,7 +208,7 @@ button:not(.action):not(.utils) {
     grid-column-start: 1;
     grid-row: 4;
   }
-  .rightMaj {
+  .leftMaj {
     grid-column-start: 1;
     grid-row: 5;
   }
