@@ -71,3 +71,12 @@ textarea {
     color: #000;
   }
 }
+
+@media all and (max-width: 760px) {
+  nav ul {
+    background-color: #f9d2d2;
+  }
+  nav li:hover {
+    background-color: #fcbebe;
+  }
+}

@@ -88,24 +88,7 @@ window.addEventListener('load', () => {
             let chn1= textData.slice(0,caret);
             let chn2 = textData.slice(caret,textData.length);
             return {chn1,chn2,caret};
-      };
-
-       function showStuff(button) {
-      //       // console.log(isNaN(caretPosition))
-      //       // console.log(caretPosition);
-      //       // console.log(textOutput.value)
-      //       //console.log(String.fromCharCode(34))
-      //       // console.log(textOutput.value);
-      //       // console.log(textData);
-      //       console.log(caretPosition)
-      //       console.log(chn1)
-      //       console.log(chn2)
-      //       //console.log(Data)
-      //button.innerText = 'yo';
-      //console.log(button.textContent)
-      console.log(specialChar.length)
-      console.log(letter.length);
-       }            
+      };          
       
 
       buttons.forEach(button => {
@@ -175,10 +158,7 @@ window.addEventListener('load', () => {
                         case 'specialPage':
                               pageNbr = !pageNbr;
                               defineKey(button);
-                              break; 
-                        case 'show':
-                              showStuff(button);
-                              break;                   
+                              break;               
                         default:
                               const input = writeInTextArea(button,chn1,chn2);
                               setCaret(input.length);
@@ -192,6 +172,7 @@ window.addEventListener('load', () => {
       textOutput.addEventListener('click',()=>{
             caretPosition = textOutput.selectionStart;
       })
+
 
       function setCaret(length){
             caretPosition = caretPosition + length;
@@ -360,6 +341,13 @@ window.addEventListener('load', () => {
       textOutput.addEventListener('scroll',()=> {
             indexDiv.scrollTop = textOutput.scrollTop;
       })
+
+
+      const menuBtn = document.querySelector('#menu');
+      menuBtn.addEventListener('click',()=> {
+            menuBtn.nextElementSibling.classList.toggle('menu-active');
+      })
+
 
  
 });

@@ -70,3 +70,12 @@ textarea {
     color: #fff;
   }
 }
+
+@media all and (max-width: 760px) {
+  nav ul {
+    background-color: #122738;
+  }
+  nav li:hover {
+    background-color: #1e4662;
+  }
+}
