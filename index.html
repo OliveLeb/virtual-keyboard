@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Virtual Keyboard</title>
     <link rel="stylesheet" href="css/keyboard.css" />
-    <link rel="stylesheet" href="css/keyboard-light.css" />
+    <link rel="stylesheet" id="theme" />
     <link rel="icon" type="image/png" href="image/keyboard.ico" />
     <link
       href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
@@ -42,6 +42,7 @@
               ><i class="fab fa-github-square"></i
             ></a>
           </li>
+          <li id="switch"></li>
         </ul>
       </nav>
     </header>
@@ -51,11 +52,6 @@
         <div id="index" class="index"></div>
         <textarea name="screen" id=""></textarea>
       </section>
-
-      <aside>
-        <input type="checkbox" name="switch" id="switch" />
-        <label for="switch">dark/light</label>
-      </aside>
 
       <!-- <div class="toggleBtn">
         <i class="far fa-keyboard"></i>

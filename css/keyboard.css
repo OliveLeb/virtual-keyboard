@@ -30,9 +30,14 @@ nav ul {
 }
 nav li {
   margin: 0 10px;
+  cursor: pointer;
 }
 .github i {
   font-size: 2rem;
+}
+#switch img {
+  height: 18px;
+  width: auto;
 }
 .menu {
   display: none;
@@ -320,4 +325,9 @@ button:not(.action):not(.utils) {
 footer {
   text-align: center;
   padding: 10px;
+}
+@media all and (max-height: 640px) {
+  footer {
+    display: none;
+  }
 }

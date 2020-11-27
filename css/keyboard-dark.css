@@ -59,6 +59,9 @@ textarea {
 .uppercase-active i {
   color: #1e4662 !important;
 }
+#switch i {
+  color: #fbe52c;
+}
 
 @media all and (max-width: 970px) {
   .number span:nth-of-type(2) {

@@ -14,11 +14,35 @@ window.addEventListener('load', () => {
       
       const windowSizeBreak =  window.matchMedia('(max-width: 970px)');
 
+
+      let colorMode = false;
       const switchMode = document.querySelector('#switch');
-      const cssFile = document.querySelector('link[href=\'css/keyboard-light.css\']');
+      const cssFile = document.querySelector('#theme');
+
       switchMode.addEventListener('click', ()=> {
-      switchMode.checked ? cssFile.setAttribute('href','css/keyboard-dark.css') : cssFile.setAttribute('href','css/keyboard-light.css');
+
+            colorMode = !colorMode;
+            setMode();                
       })
+
+      function setMode() {
+            
+            if(colorMode) {
+                  cssFile.setAttribute('href','css/keyboard-dark.css');
+                  switchMode.innerHTML = '<i class="fas fa-lightbulb"></i>';
+            }
+            else { 
+                  cssFile.setAttribute('href','css/keyboard-light.css');
+                  switchMode.innerHTML = '<i class="fas fa-moon"></i>';
+            };
+            
+      };
+      setMode();
+
+
+
+
+
 
 
       // const toggleKeyboard = document.querySelector('.toggleBtn');
